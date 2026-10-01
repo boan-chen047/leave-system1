@@ -4,7 +4,10 @@
  * 改寫期間用來比對 Nuxt 版與原 Next.js 版的元件長得一樣；全部功能完成後可移除。
  */
 import { ref } from 'vue';
-import type { SessionRow } from '~/types';
+import type { SessionRow } from '#shared/types';
+
+// 公開頁：不需登入就能看（只是元件外觀預覽，全部示範資料）
+definePageMeta({ public: true });
 
 const base: SessionRow = {
   id: 'demo-1',

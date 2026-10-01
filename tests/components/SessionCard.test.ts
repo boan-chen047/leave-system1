@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import SessionCard from '~/components/SessionCard.vue';
 import Badge from '~/components/ui/Badge.vue';
-import type { SessionRow } from '~/types';
+import type { SessionRow } from '#shared/types';
 
 // SessionCard 在 Nuxt 裡靠自動匯入使用 <UiBadge>；單獨測試時手動註冊
 const mountCard = (session: SessionRow, badge: 'attend' | 'extra' | 'leave' = 'attend', slots = {}) =>
