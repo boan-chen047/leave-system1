@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
+import { isSetupComplete } from '#shared/utils/setup';
 
 /**
  * 登入閘門：決定目前該顯示什麼（取代 Next.js 版 LiffProvider 的畫面判斷）。
@@ -10,10 +11,12 @@ import { computed, onMounted, watch } from 'vue';
  *   開發測試登入 → 選測試帳號畫面（只在本機開發）
  *   帳號自助停用中 → 重新啟用畫面
  *   已登入 → 頁面內容＋首次設定三關（卡在哪關就跳哪關的彈窗）
+ *            ＋設定完成後，若有「請假場次異動」通知就跳彈窗
  */
 const route = useRoute();
 const { me, loading, fatal, needsDevLogin, init, devSwitch } = useMe();
 const isPublic = computed(() => route.meta.public === true);
+const setupDone = computed(() => isSetupComplete(me.value));
 // 開發模式且有開測試登入才顯示「切換帳號」（只開發模式但沒開測試登入時，切換後會進到用不了的畫面）
 const showDevSwitch = import.meta.dev && isFlagOn(useRuntimeConfig().public.devLogin);
 
@@ -38,6 +41,7 @@ watch(isPublic, (pub) => {
   <template v-else-if="me">
     <slot />
     <FirstSetup />
+    <LeaveChangeNoticeDialog :enabled="setupDone" :on-cancel-page="route.path === '/cancel'" />
     <!-- 本機開發才有：切換測試帳號（正式建置時 import.meta.dev 為 false，這顆不會出現） -->
     <button
       v-if="showDevSwitch"

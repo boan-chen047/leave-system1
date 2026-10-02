@@ -12,7 +12,7 @@ import {
   effectiveLeaveDeadline,
   pastEffectiveLeaveDeadline,
   rangeWholeMonth,
-} from '~/utils/date';
+} from '#shared/utils/date';
 
 describe('rangeWholeMonth（台北本月 1 日～月底）', () => {
   it('9 月 → 9/01～9/30（到月底，不是到今天）', () => {

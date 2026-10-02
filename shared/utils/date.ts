@@ -1,4 +1,6 @@
 //
+// 前後端共用（shared/）：畫面顯示的截止時間，和後端判斷「能不能請假」用的是同一份規則。
+//
 // 整個系統在台灣運作，但伺服器（Vercel）與 CI 都跑 UTC。若用 Date 的
 // local 方法（getFullYear/getMonth/getDate），日期會在環境時區不是 +08 時飄掉。
 // 因此所有「把時刻換算成日曆日」的動作，一律明確指定 Asia/Taipei。
@@ -95,6 +97,11 @@ export function rangeThisQuarter(today = new Date()): { from: string; to: string
   const { y, m } = taipeiYM(today);
   const qStartMonth = Math.floor((m - 1) / 3) * 3 + 1; // 1,4,7,10
   return { from: `${y}-${pad(qStartMonth)}-01`, to: taipeiISODate(today) };
+}
+
+/** 台灣「今天」的日曆日 'YYYY-MM-DD'（與伺服器時區無關） */
+export function taipeiToday(now = new Date()): string {
+  return taipeiISODate(now);
 }
 
 /** 台灣「明天」的日曆日 'YYYY-MM-DD'（台灣固定 +08、無日光節約，直接加 24h 再取台北日）。 */

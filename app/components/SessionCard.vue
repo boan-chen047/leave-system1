@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Clock, MapPin, Hourglass, Users } from '@lucide/vue';
-import { formatSessionDate, formatTimeRange, formatDeadline } from '~/utils/date';
+import { formatSessionDate, formatTimeRange, formatDeadline } from '#shared/utils/date';
 import type { BadgeStatus, SessionRow } from '#shared/types';
 
 const props = defineProps<{ session: SessionRow; badge: BadgeStatus }>();
