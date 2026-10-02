@@ -3,9 +3,9 @@ import { ref, watch } from 'vue';
 import { api } from '~/utils/api';
 
 /**
- * 暱稱（綽號）對話框。
- * mode=first：首次設定第一關，預填 LINE 暱稱讓使用者確認／微調，不能關閉。
- * mode=edit：個人頁修改，預填目前暱稱，可取消。
+ * 名字對話框（填名字或綽號都可以，不強制真名）。
+ * mode=first：首次設定第一關，預填 LINE 名稱讓使用者確認／微調，不能關閉。
+ * mode=edit：個人頁修改，預填目前名字，可取消。
  */
 const props = defineProps<{ open: boolean; mode: 'first' | 'edit' }>();
 const emit = defineEmits<{ saved: []; close: [] }>();
@@ -29,7 +29,7 @@ watch(
 async function save() {
   const name = value.value.trim();
   if (!name) {
-    error.value = '請填寫暱稱';
+    error.value = '請填寫名字';
     return;
   }
   saving.value = true;
@@ -44,19 +44,19 @@ async function save() {
 </script>
 
 <template>
-  <UiDialog :open="open" :title="mode === 'first' ? '確認你的暱稱（綽號）' : '修改暱稱（綽號）'">
+  <UiDialog :open="open" :title="mode === 'first' ? '確認你的名字' : '修改名字'">
     <!-- 內容少時在內容區垂直置中，不會擠在頂端看起來偏上 -->
     <div :style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }">
       <p
         v-if="mode === 'first'"
         :style="{ margin: '0 0 12px', fontSize: '14px', color: 'var(--text-secondary)', textAlign: 'center' }"
       >
-        填暱稱（綽號）就好，管理員用它對照名單
+        填名字或綽號都可以，管理員用它對照名單
       </p>
       <UiInput
         v-model="value"
-        placeholder="你想顯示的暱稱（綽號）"
-        aria-label="暱稱（綽號）"
+        placeholder="你的名字或綽號"
+        aria-label="名字"
         maxlength="20"
         @input="error = ''"
       />

@@ -8,9 +8,9 @@ export type AppRole = 'member' | 'admin2' | 'admin1';
 
 export type Me = {
   id: string;
-  displayName: string; // LINE 暱稱，每次登入覆寫
+  displayName: string; // LINE 名稱，每次登入覆寫
   pictureUrl: string | null;
-  realName: string | null; // null 代表尚未確認暱稱（首次設定）
+  realName: string | null; // 自己填的名字（可填綽號）；null 代表尚未確認（首次設定）
   role: AppRole;
   isActive: boolean; // false＝已停用（自助停用者可重登重啟）
   termsVersion: string | null; // 已同意的條款版本；不等於現行版本即需（重新）同意

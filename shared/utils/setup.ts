@@ -2,7 +2,7 @@ import type { Me } from '../types';
 import { CURRENT_TERMS_VERSION } from './terms';
 
 /**
- * 首次設定三關，依序：確認暱稱 → 同意條款 → 退費途徑。回傳「目前卡在哪一關」，都完成回 null。
+ * 首次設定三關，依序：確認名字 → 同意條款 → 退費途徑。回傳「目前卡在哪一關」，都完成回 null。
  *
  * Next.js 版這段判斷直接寫在首頁的三個彈窗 open 條件裡，另外 isSetupComplete 又寫一次；
  * 這裡集中成一個函式，彈窗順序與「是否完成」用同一套規則。

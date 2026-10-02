@@ -30,7 +30,7 @@ const li = { margin: '0 0 4px', fontSize: '14px', lineHeight: 1.7, color: 'var(-
       使用本系統即表示你同意我們的隱私權政策，重點：
     </p>
     <ul :style="{ margin: '0 0 10px', paddingLeft: '18px' }">
-      <li :style="li">蒐集：暱稱（綽號）、LINE 資訊、退費途徑與銀行帳號、請假與出缺席。</li>
+      <li :style="li">蒐集：名字（可填綽號）、LINE 資訊、退費途徑與銀行帳號、請假與出缺席。</li>
       <li :style="li">用途：請假管理與出缺席統計；不涉金流、不販售個資。</li>
       <li :style="li">連續 5 年未登入，將自動刪除你的帳號與所有個人資料。</li>
     </ul>
