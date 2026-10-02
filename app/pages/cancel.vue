@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 銷假頁。第 1 步只有版面骨架，功能在第 4 步接上。
-import { taipeiMonth } from '~/utils/date';
+import { taipeiMonth } from '#shared/utils/date';
 
 const month = taipeiMonth();
 </script>

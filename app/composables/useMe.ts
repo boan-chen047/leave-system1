@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import type { Me } from '#shared/types';
 import { api } from '~/utils/api';
+import { clearMemberCache } from '~/utils/cache';
 import { RELOGIN_FLAG, isIdTokenExpired, loginRedirect } from '~/utils/liff';
 import { isFlagOn } from '#shared/utils/flags';
 
@@ -33,6 +34,7 @@ export function useMe() {
   /** 只登出本站（清 cookie），不會登出 LINE。開發切換測試帳號用。 */
   async function logout(): Promise<void> {
     await api('/api/auth/logout', { method: 'POST' });
+    clearMemberCache(); // 換帳號後不能看到上一個帳號的快取資料
     me.value = null;
   }
 
