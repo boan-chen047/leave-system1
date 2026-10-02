@@ -1,6 +1,8 @@
 # Migrations
 
-資料表定義，**依檔名順序全部套用**（目前 `001`～`045`）。與 Next.js 版（`leave-system/supabase/migrations`）逐字一致；各檔案開頭有註解說明做了什麼、為什麼。
+資料表定義，**依檔名順序全部套用**（目前 `001`～`046`）。`001`～`045` 與 Next.js 版（`leave-system/supabase/migrations`）逐字一致，`046` 起是 Nuxt 版專用；各檔案開頭有註解說明做了什麼、為什麼。
+
+已套用到 Nuxt 版資料庫：`001`～`046`（2026-10-02）。新增檔案時接著編號，套用後更新這一行。
 
 套用目標是 Nuxt 版專用的 Supabase 專案（`eetmnranpbdkolzgbimj`），步驟與套用後要做的事見 [docs/部署與設定.md](../../docs/部署與設定.md#supabase資料庫)。
 
@@ -19,5 +21,6 @@
 | `043` | 編輯規則改為就地更新（含已請假的場次） |
 | `044` | 已請假的場次改日期／時間時通知請假者 |
 | `045` | 恢復已取消的場次 |
+| `046` | （Nuxt 版專用）收回 Supabase 自動建立的 `rls_auto_enable()` 前端執行權限，清安全檢查警告 |
 
 注意：排程時間一律是 UTC；改 DB 函式用 `create or replace` 時，定義裡要寫上 `set search_path = public`（否則會被重設）。
