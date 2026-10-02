@@ -36,7 +36,9 @@ export default defineEventHandler(async (event) => {
   if (error || !user) return fail(event, 500, '建立帳號失敗');
 
   // 自己停用的可以登入（進來會跳「重新啟用」彈窗）；管理員停用（非自助）才擋在門外
-  if (!user.is_active && !user.self_deactivated) return fail(event, 403, '此帳號已被停用');
+  if (!canSignIn({ isActive: user.is_active, selfDeactivated: user.self_deactivated })) {
+    return fail(event, 403, '此帳號已被停用');
+  }
 
   setSessionCookie(
     event,

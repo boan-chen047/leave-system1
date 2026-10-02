@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { signSession, verifySession } from '#server/utils/session';
 import { verifyLineIdToken } from '#server/utils/line';
+import { canSignIn } from '#server/utils/me';
 
 // 原 Next.js 版 tests/lib/auth/session.test.ts、line.test.ts 搬來；
 // 差異：金鑰與 channel id 改成參數傳入，不再改環境變數。
@@ -69,5 +70,19 @@ describe('verifyLineIdToken', () => {
     mockLine({});
     await expect(verifyLineIdToken('x', '')).rejects.toThrow('NUXT_LINE_CHANNEL_ID');
     expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+describe('canSignIn（誰能進本站）', () => {
+  it('啟用中可以進', () => {
+    expect(canSignIn({ isActive: true, selfDeactivated: false })).toBe(true);
+  });
+
+  it('自己停用的可以進（進來看到重新啟用畫面）', () => {
+    expect(canSignIn({ isActive: false, selfDeactivated: true })).toBe(true);
+  });
+
+  it('管理員停用的擋在門外', () => {
+    expect(canSignIn({ isActive: false, selfDeactivated: false })).toBe(false);
   });
 });

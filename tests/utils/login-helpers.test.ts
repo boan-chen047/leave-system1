@@ -58,13 +58,21 @@ describe('api()（前端呼叫 API 的共用函式）', () => {
     expect(await api('/api/me', {}, '儲存失敗')).toEqual({ ok: false, status: 400, error: '姓名不可空白' });
   });
 
-  it('伺服器拋出的系統錯誤（createError 格式，error 是 true 不是字串）用 statusMessage', async () => {
-    respond({ error: true, statusCode: 500, statusMessage: '缺少 Supabase 環境變數' }, 500);
+  it('伺服器拋出的錯誤（createError 格式，error 是 true 不是字串）用 message', async () => {
+    respond(
+      { error: true, statusCode: 500, statusMessage: 'Supabase NUXT_SUPABASE_URL', message: '缺少 Supabase 環境變數' },
+      500,
+    );
     expect(await api('/api/auth/dev-login', {}, '測試登入失敗')).toEqual({
       ok: false,
       status: 500,
       error: '缺少 Supabase 環境變數',
     });
+  });
+
+  it('框架預設的英文錯誤（message 與 statusMessage 相同）改用中文 fallback', async () => {
+    respond({ error: true, statusCode: 500, statusMessage: 'Server Error', message: 'Server Error' }, 500);
+    expect(await api('/api/me', {}, '讀取失敗')).toEqual({ ok: false, status: 500, error: '讀取失敗' });
   });
 
   it('後端沒給訊息（或不是 JSON）時用 fallback', async () => {

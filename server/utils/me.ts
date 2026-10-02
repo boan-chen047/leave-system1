@@ -18,6 +18,14 @@ type UserRow = {
   bank_account: string | null;
 };
 
+/**
+ * 能不能進本站：啟用中，或「自己停用」（進來會看到重新啟用畫面）；管理員停用的擋在門外。
+ * LINE 登入（POST /api/auth/line）與讀自己資料（GET /api/me）共用這條規則，兩邊才不會不一致。
+ */
+export function canSignIn(user: { isActive: boolean; selfDeactivated: boolean }): boolean {
+  return user.isActive || user.selfDeactivated;
+}
+
 /** 資料庫的 snake_case 列 → 前端用的 Me（camelCase） */
 export function toMe(row: UserRow): Me {
   return {

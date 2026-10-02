@@ -12,7 +12,8 @@ export function supabaseAdmin(): SupabaseClient {
   if (cached) return cached;
   const { supabaseUrl, supabaseServiceRoleKey } = useRuntimeConfig();
   if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw createError({ statusCode: 500, statusMessage: '缺少 Supabase 環境變數（NUXT_SUPABASE_URL／NUXT_SUPABASE_SERVICE_ROLE_KEY）' });
+    // 用 message 不用 statusMessage：statusMessage 會放進 HTTP 狀態列，只能是英數字，中文會被濾掉
+    throw createError({ statusCode: 500, message: '缺少 Supabase 環境變數（NUXT_SUPABASE_URL／NUXT_SUPABASE_SERVICE_ROLE_KEY）' });
   }
   cached = createClient(supabaseUrl, supabaseServiceRoleKey, { auth: { persistSession: false } });
   return cached;

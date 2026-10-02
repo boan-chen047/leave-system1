@@ -23,10 +23,11 @@ export function useMe() {
 
   const isAdmin = computed(() => me.value?.role === 'admin1' || me.value?.role === 'admin2');
 
-  /** 重新讀取自己的資料（改暱稱、同意條款等之後呼叫） */
-  async function refresh(): Promise<void> {
+  /** 重新讀取自己的資料（改暱稱、同意條款等之後呼叫）。回傳是否讀取成功。 */
+  async function refresh(): Promise<boolean> {
     const r = await api<Me>('/api/me');
     if (r.ok) me.value = r.data;
+    return r.ok;
   }
 
   /** 只登出本站（清 cookie），不會登出 LINE。開發切換測試帳號用。 */
@@ -91,7 +92,8 @@ export function useMe() {
   async function devLogin(role: Me['role']): Promise<string | null> {
     const r = await api('/api/auth/dev-login', { method: 'POST', body: { role } }, '測試登入失敗');
     if (!r.ok) return r.error;
-    await refresh();
+    // 讀不到自己的資料就留在測試登入畫面並顯示原因，不要切走後變成一片空白
+    if (!(await refresh())) return '登入成功但讀不到帳號資料';
     needsDevLogin.value = false;
     return null;
   }

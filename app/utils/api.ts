@@ -23,12 +23,13 @@ export async function api<T = unknown>(
     });
     const json = await res.json().catch(() => null);
     if (!res.ok) {
-      // 自訂錯誤是 { error: '訊息' }；伺服器拋出的系統錯誤（createError）是 { statusMessage: '訊息' }
+      // 自訂錯誤是 { error: '訊息' }；伺服器拋出的錯誤（createError）把原因放在 message。
+      // message 與 statusMessage 相同代表是框架預設的英文（Not Found、Server Error），改用呼叫端的中文 fallback。
       const msg =
         json && typeof json.error === 'string'
           ? json.error
-          : json && typeof json.statusMessage === 'string' && json.statusMessage
-            ? json.statusMessage
+          : json && typeof json.message === 'string' && json.message && json.message !== json.statusMessage
+            ? json.message
             : fallback;
       return { ok: false, status: res.status, error: msg };
     }
