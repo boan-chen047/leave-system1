@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { BadgeStatus } from '~/types';
+import type { BadgeStatus } from '#shared/types';
 
 const props = defineProps<{ status: BadgeStatus }>();
 

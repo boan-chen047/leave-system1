@@ -1,0 +1,11 @@
+-- 009_lock_leave_requests_writes.sql —— 堵住前端直接寫 leave_requests 的漏洞
+--
+-- 原本 002 只 revoke update（並 grant update 部分欄位），INSERT/DELETE 仍開放給
+-- authenticated。由於使用者的 leave_session cookie 就是用 SUPABASE_JWT_SECRET 簽的、
+-- Supabase 會認的 JWT，配上公開 anon key 可直接打 Supabase REST：leaves_own_all 是
+-- `for all`、RLS 只擋「是不是本人」，於是本人能對「已開打/已取消」的場次硬塞請假、
+-- 或直接 DELETE 請假單抹掉「請了又銷」的軌跡——完全繞過 API 的時間檢查與軟刪保護。
+--
+-- 修法：GRANT 層面把前端的寫入權限全部收掉。所有寫入一律走後端 service-role API
+-- （service role 繞過 GRANT 與 RLS，不受影響）；前端只保留 SELECT（RLS 控制看自己）。
+revoke insert, update, delete on leave_requests from authenticated, anon;

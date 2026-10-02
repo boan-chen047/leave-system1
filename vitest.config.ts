@@ -7,8 +7,12 @@ import { fileURLToPath } from 'node:url';
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-    // 與 Nuxt 相同的路徑別名：~ 指向 app/
-    alias: { '~': fileURLToPath(new URL('./app', import.meta.url)) },
+    // 與 Nuxt 相同的路徑別名：~ 指向 app/、#shared 指向 shared/、#server 指向 server/
+    alias: {
+      '~': fileURLToPath(new URL('./app', import.meta.url)),
+      '#shared': fileURLToPath(new URL('./shared', import.meta.url)),
+      '#server': fileURLToPath(new URL('./server', import.meta.url)),
+    },
   },
   test: {
     environment: 'happy-dom',

@@ -12,7 +12,10 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@line/liff": "^2.31.1",
     "@lucide/vue": "^1.49.0",
+    "@supabase/supabase-js": "^2.117.2",
+    "jose": "^6.2.12",
     "nuxt": "^4.5.2",
     "vue": "^3.5.43",
     "vue-router": "^5.3.1"
