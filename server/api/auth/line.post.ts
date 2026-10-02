@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
     return fail(event, 401, (e as Error).message);
   }
 
-  // display_name 與 picture_url 每次登入都覆寫，這就是「LINE 暱稱即時同步」的實作方式；
-  // real_name 與 role 不在此處異動，避免蓋掉使用者自己填的暱稱。
+  // display_name 與 picture_url 每次登入都覆寫，這就是「LINE 名稱即時同步」的實作方式；
+  // real_name 與 role 不在此處異動，避免蓋掉使用者自己填的名字。
   const { data: user, error } = await supabaseAdmin()
     .from('users')
     .upsert(

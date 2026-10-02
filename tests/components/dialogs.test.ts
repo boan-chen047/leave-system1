@@ -53,26 +53,26 @@ beforeEach(() => {
   me.value = { ...baseMe };
 });
 
-describe('NameDialog（暱稱）', () => {
+describe('NameDialog（名字）', () => {
   const mountName = (mode: 'first' | 'edit' = 'first') =>
     mount(NameDialog, { props: { open: true, mode }, global: { components } });
 
-  it('首次設定預填 LINE 暱稱；編輯時預填目前暱稱', () => {
+  it('首次設定預填 LINE 名稱；編輯時預填目前名字', () => {
     expect((mountName().find('input').element as HTMLInputElement).value).toBe('小豪LINE');
     me.value = { ...baseMe, realName: '豪哥' };
     expect((mountName('edit').find('input').element as HTMLInputElement).value).toBe('豪哥');
   });
 
-  it('空白不送出，顯示「請填寫暱稱」', async () => {
+  it('空白不送出，顯示「請填寫名字」', async () => {
     const calls = mockApi();
     const w = mountName();
     await w.find('input').setValue('   ');
     await clickByText(w, '下一步');
-    expect(w.text()).toContain('請填寫暱稱');
+    expect(w.text()).toContain('請填寫名字');
     expect(calls).toHaveLength(0);
   });
 
-  it('送出去頭尾空白的暱稱，成功後通知外層', async () => {
+  it('送出去頭尾空白的名字，成功後通知外層', async () => {
     const calls = mockApi();
     const w = mountName();
     await w.find('input').setValue('  豪哥 ');
@@ -82,10 +82,10 @@ describe('NameDialog（暱稱）', () => {
   });
 
   it('後端錯誤訊息顯示在畫面上，不通知外層', async () => {
-    mockApi(400, { error: '姓名請控制在 20 字以內' });
+    mockApi(400, { error: '名字請控制在 20 字以內' });
     const w = mountName();
     await clickByText(w, '下一步');
-    expect(w.text()).toContain('姓名請控制在 20 字以內');
+    expect(w.text()).toContain('名字請控制在 20 字以內');
     expect(w.emitted('saved')).toBeUndefined();
   });
 

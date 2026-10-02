@@ -54,8 +54,8 @@ describe('api()（前端呼叫 API 的共用函式）', () => {
   });
 
   it('失敗時優先用後端的 error 訊息', async () => {
-    respond({ error: '姓名不可空白' }, 400);
-    expect(await api('/api/me', {}, '儲存失敗')).toEqual({ ok: false, status: 400, error: '姓名不可空白' });
+    respond({ error: '名字不可空白' }, 400);
+    expect(await api('/api/me', {}, '儲存失敗')).toEqual({ ok: false, status: 400, error: '名字不可空白' });
   });
 
   it('伺服器拋出的錯誤（createError 格式，error 是 true 不是字串）用 message', async () => {
@@ -91,7 +91,7 @@ describe('首次設定三關（setupStage）', () => {
     id: 'u',
     displayName: 'LINE',
     pictureUrl: null,
-    realName: '暱稱',
+    realName: '小明',
     role: 'member',
     isActive: true,
     termsVersion: CURRENT_TERMS_VERSION,
@@ -101,7 +101,7 @@ describe('首次設定三關（setupStage）', () => {
     bankAccount: null,
   };
 
-  it('依序：暱稱 → 條款 → 退費途徑 → 完成', () => {
+  it('依序：名字 → 條款 → 退費途徑 → 完成', () => {
     expect(setupStage({ ...done, realName: null, termsVersion: null, refundLinePay: false })).toBe('name');
     expect(setupStage({ ...done, termsVersion: null, refundLinePay: false })).toBe('terms');
     expect(setupStage({ ...done, termsVersion: '2000-01-01' })).toBe('terms'); // 條款升版要重新同意

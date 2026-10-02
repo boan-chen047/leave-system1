@@ -23,7 +23,7 @@ export function useMe() {
 
   const isAdmin = computed(() => me.value?.role === 'admin1' || me.value?.role === 'admin2');
 
-  /** 重新讀取自己的資料（改暱稱、同意條款等之後呼叫）。回傳是否讀取成功。 */
+  /** 重新讀取自己的資料（改名字、同意條款等之後呼叫）。回傳是否讀取成功。 */
   async function refresh(): Promise<boolean> {
     const r = await api<Me>('/api/me');
     if (r.ok) me.value = r.data;
